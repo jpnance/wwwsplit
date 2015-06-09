@@ -1,0 +1,149 @@
+body {
+	background-color: black;
+	color: white;
+	margin: 0;
+	padding: 0;
+}
+
+table#run {
+	border-collapse: collapse;
+	font-family: sans-serif;
+	margin: 8px;
+}
+
+	table#run tr.header {
+	}
+
+		table#run tr.header th {
+		}
+
+		table#run tr.header th.game {
+		}
+
+		table#run tr.header th.goal {
+			font-size: 80%;
+			font-weight: normal;
+			padding-bottom: 6px;
+		}
+
+	table#run tr.segment {
+		border-bottom: 1px solid #333333;
+		border-top: 1px solid #333333;
+		color: #9a9a9a;
+		height: 22px;
+	}
+
+	table#run tr.segment.ignored {
+		color: #444;
+	}
+
+	table#run tr.segment.odd {
+		background-color: #1a1a1a;
+	}
+
+	table#run tr.segment.first {
+		border-top: 1px solid #999999;
+	}
+
+	table#run tr.segment.last {
+		border-bottom: 1px solid #999999;
+	}
+
+	table#run tr.segment.active {
+		background-color: #2658bd;
+		color: white;
+	}
+
+		table#run tr.segment td {
+			font-size: 70%;
+			padding: 6px 4px 5px 4px;
+			vertical-align: text-bottom;
+		}
+
+		table#run tr.segment td.name {
+			white-space: nowrap;
+			width: 151px;
+		}
+
+		table#run tr.segment td.split,
+		table#run tr.segment td.difference {
+			text-align: right;
+			min-width: 60px;
+		}
+
+		table#run tr.segment.active td.difference {
+			visibility: hidden;
+		}
+
+		table#run tr.segment td.difference.ahead,
+		table#run tr.segment td.difference.ahead.gaining {
+			/*color: #007733;*/
+			color: #00aa44;
+		}
+
+		table#run tr.segment td.difference.ahead.losing {
+			color: #a2ebc1;
+		}
+
+		table#run tr.segment.active td.difference.ahead {
+			color: #00ff33;
+		}
+
+		table#run tr.segment td.difference.behind,
+		table#run tr.segment td.difference.behind.losing {
+			/*color: #884444;*/
+			color: #bb4444;
+		}
+
+		table#run tr.segment td.difference.behind.gaining {
+			color: #e68787;
+		}
+
+		table#run tr.segment.active td.difference.behind {
+			color: #ff2222;
+		}
+
+		table#run tr.segment td.difference.ahead.new-best,
+		table#run tr.segment td.difference.behind.new-best {
+			color: #ffd700;
+		}
+
+	table#run tr.clock {
+		border-bottom: 1px solid #999999;
+		border-top: 1px solid #333333;
+	}
+
+		table#run tr.clock td.total {
+			font-family: monospace;
+			font-size: 200%;
+			letter-spacing: -3px;
+			padding: 3px 2px 0;
+			text-align: right;
+		}
+
+	table#run tr.possible {
+		border-bottom: 1px solid #333333;
+		color: #9a9a9a;
+		font-size: 70%;
+		height: 24px;
+	}
+
+	table#run tr.possible.first {
+		border-top: 1px solid #999999;
+	}
+
+	table#run tr.possible.last {
+		border-bottom: 1px solid #999999;
+	}
+
+		table#run tr.possible td {
+			padding: 4px;
+		}
+
+		table#run tr.possible td.perfect,
+		table#run tr.possible td.predicted,
+		table#run tr.possible td.remaining {
+			color: #aaaaaa;
+			font-weight: normal;
+			text-align: right;
+		}
