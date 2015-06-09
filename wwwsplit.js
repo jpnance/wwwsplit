@@ -663,6 +663,11 @@ $(document).ready(function() {
 
 			case 32: /* spacebar is for start/split */
 				if (!run.running) {
+					// don't start a new run until the previous one has been saved or reset
+					if (!run.saved) {
+						return;
+					}
+
 					run.reset();
 					run.start();
 				}
