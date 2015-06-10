@@ -643,6 +643,10 @@ var run = {
 $(document).ready(function() {
 	run.data = JSON.parse(localStorage.getItem('data'));
 
+	if (run.data == null) {
+		run.data = data;
+	}
+
 	/*
 	run.data = data;
 	localStorage.setItem('data', JSON.stringify(run.data, run.replacer));
