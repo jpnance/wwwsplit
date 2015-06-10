@@ -645,12 +645,8 @@ $(document).ready(function() {
 
 	if (run.data == null) {
 		run.data = data;
+		localStorage.setItem('data', JSON.stringify(run.data, run.replacer));
 	}
-
-	/*
-	run.data = data;
-	localStorage.setItem('data', JSON.stringify(run.data, run.replacer));
-	*/
 
 	run.generateRunTable();
 
