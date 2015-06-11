@@ -5,145 +5,165 @@ body {
 	padding: 0;
 }
 
-table#run {
-	border-collapse: collapse;
+div#run {
 	font-family: sans-serif;
 	margin: 8px;
+	overflow: hidden;
+	width: 295px;
 }
 
-	table#run tr.header {
+	div#run div.header {
+		line-height: 1.05em;
+		text-align: center;
+		border-bottom: 1px solid #999999;
 	}
 
-		table#run tr.header th {
+		div#run div.header div.game {
+			font-weight: bold;
+			padding-top: 1px;
 		}
 
-		table#run tr.header th.game {
-		}
-
-		table#run tr.header th.goal {
+		div#run div.header div.goal {
 			font-size: 80%;
 			font-weight: normal;
-			padding-bottom: 6px;
+			padding-bottom: 4px;
 		}
 
-	table#run tr.segment {
-		border-bottom: 1px solid #333333;
-		border-top: 1px solid #333333;
-		color: #9a9a9a;
-		height: 22px;
+	div#run div.segments {
+		height: 240px;
+		overflow: auto;
+		width: 310px;
 	}
 
-	table#run tr.segment.ignored {
-		color: #444;
-	}
+		div#run div.segments div.segment {
+			border-top: 1px solid #333333;
+			color: #9a9a9a;
+			font-size: 0;
+			height: 11px;
+			padding: 7px 2px 5px 4px;
+		}
 
-	table#run tr.segment.odd {
-		background-color: #1a1a1a;
-	}
+		div#run div.segments div.segment.ignored {
+			color: #444;
+		}
 
-	table#run tr.segment.first {
+		div#run div.segments div.segment.odd {
+			background-color: #1a1a1a;
+		}
+
+		div#run div.segments div.segment.first {
+			border-top: 1px solid transparent;
+		}
+
+		div#run div.segments div.segment.last {
+		}
+
+		div#run div.segments div.segment.active {
+			background-color: #2658bd;
+			color: white;
+		}
+
+			div#run div.segments div.segment div {
+				display: inline-block;
+				font-size: 11px;
+				vertical-align: middle;
+			}
+
+			div#run div.segments div.segment div.name {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				width: 171px;
+			}
+
+				div#run div.segments div.segment div.difference,
+				div#run div.segments div.segment div.split {
+					text-align: right;
+				}
+
+				div#run div.segments div.segment.active div.difference {
+					visibility: hidden;
+				}
+
+				div#run div.segments div.segment div.difference {
+					min-width: 52px;
+				}
+
+				div#run div.segments div.segment div.difference.ahead,
+				div#run div.segments div.segment div.difference.ahead.gaining {
+					/*color: #007733;*/
+					color: #00aa44;
+				}
+
+				div#run div.segments div.segment div.difference.ahead.losing {
+					color: #a2ebc1;
+				}
+
+				div#run div.segments div.segment.active div.difference.ahead {
+					color: #00ff33;
+				}
+
+				div#run div.segments div.segment div.difference.behind,
+				div#run div.segments div.segment div.difference.behind.losing {
+					/*color: #884444;*/
+					color: #bb4444;
+				}
+
+				div#run div.segments div.segment div.difference.behind.gaining {
+					color: #e68787;
+				}
+
+				div#run div.segments div.segment.active div.difference.behind {
+					color: #ff2222;
+				}
+
+				div#run div.segments div.segment div.difference.ahead.new-best,
+				div#run div.segments div.segment div.difference.behind.new-best {
+					color: #ffd700;
+				}
+
+				div#run div.segments div.segment div.split {
+					min-width: 64px;
+				}
+
+	div#run div.timer {
 		border-top: 1px solid #999999;
+		font-family: monospace;
+		font-size: 200%;
+		letter-spacing: -3px;
+		padding: 3px 2px 0px;
+		text-align: right;
 	}
 
-	table#run tr.segment.last {
+	div#run div.stats {
 		border-bottom: 1px solid #999999;
-	}
-
-	table#run tr.segment.active {
-		background-color: #2658bd;
-		color: white;
-	}
-
-		table#run tr.segment td {
-			font-size: 70%;
-			padding: 6px 4px 5px 4px;
-			vertical-align: text-bottom;
-		}
-
-		table#run tr.segment td.name {
-			white-space: nowrap;
-			width: 151px;
-		}
-
-		table#run tr.segment td.split,
-		table#run tr.segment td.difference {
-			text-align: right;
-			min-width: 60px;
-		}
-
-		table#run tr.segment.active td.difference {
-			visibility: hidden;
-		}
-
-		table#run tr.segment td.difference.ahead,
-		table#run tr.segment td.difference.ahead.gaining {
-			/*color: #007733;*/
-			color: #00aa44;
-		}
-
-		table#run tr.segment td.difference.ahead.losing {
-			color: #a2ebc1;
-		}
-
-		table#run tr.segment.active td.difference.ahead {
-			color: #00ff33;
-		}
-
-		table#run tr.segment td.difference.behind,
-		table#run tr.segment td.difference.behind.losing {
-			/*color: #884444;*/
-			color: #bb4444;
-		}
-
-		table#run tr.segment td.difference.behind.gaining {
-			color: #e68787;
-		}
-
-		table#run tr.segment.active td.difference.behind {
-			color: #ff2222;
-		}
-
-		table#run tr.segment td.difference.ahead.new-best,
-		table#run tr.segment td.difference.behind.new-best {
-			color: #ffd700;
-		}
-
-	table#run tr.clock {
-		border-bottom: 1px solid #999999;
-		border-top: 1px solid #333333;
-	}
-
-		table#run tr.clock td.total {
-			font-family: monospace;
-			font-size: 200%;
-			letter-spacing: -3px;
-			padding: 3px 2px 0;
-			text-align: right;
-		}
-
-	table#run tr.possible {
-		border-bottom: 1px solid #333333;
-		color: #9a9a9a;
-		font-size: 70%;
-		height: 24px;
-	}
-
-	table#run tr.possible.first {
 		border-top: 1px solid #999999;
+		color: #aaaaaa;
+		font-size: 0;
 	}
 
-	table#run tr.possible.last {
-		border-bottom: 1px solid #999999;
-	}
-
-		table#run tr.possible td {
-			padding: 4px;
+		div#run div.stats div.stat {
+			border-top: 1px solid #333333;
+			color: #9a9a9a;
+			height: 11px;
+			padding: 7px 2px 5px 4px;
 		}
 
-		table#run tr.possible td.perfect,
-		table#run tr.possible td.predicted,
-		table#run tr.possible td.remaining {
-			color: #aaaaaa;
-			font-weight: normal;
-			text-align: right;
+		div#run div.stats div.stat.first {
+			border-top: 1px solid transparent;
 		}
+
+			div#run div.stats div.stat div {
+				display: inline-block;
+				font-size: 11px;
+			}
+
+			div#run div.stats div.stat div.name {
+				width: 222px;
+			}
+
+			div#run div.stats div.stat div.time {
+				font-weight: normal;
+				min-width: 64px;
+				text-align: right;
+			}

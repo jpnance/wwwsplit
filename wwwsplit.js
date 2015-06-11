@@ -122,7 +122,7 @@ var run = {
 		delete this.data.segments[segmentId].ignored;
 
 		if (!this.data.segments[segmentId].start) {
-			this.data.segments[segmentId].start = this.clock.runningTime();
+			this.data.segments[segmentId].start = this.timer.runningTime();
 		}
 	},
 	activeSegmentId: function() {
@@ -169,7 +169,7 @@ var run = {
 				this.data.segments[splitId].start = this.data.segments[splitId - 1].split;
 			}
 
-			this.data.segments[splitId].split = this.clock.unformatMilliseconds(minutes, seconds, centiseconds);
+			this.data.segments[splitId].split = this.timer.unformatMilliseconds(minutes, seconds, centiseconds);
 			this.data.segments[splitId].duration = this.data.segments[splitId].split - this.data.segments[splitId].start;
 		}
 	},
@@ -257,7 +257,7 @@ var run = {
 
 		return sumOfCurrentSegmentDurations + sumOfPredictedSegmentDurations;
 	},
-	clock: {
+	timer: {
 		anchor: null,
 		date: null,
 		elapsed: function(since) {
@@ -350,51 +350,51 @@ var run = {
 		var elapsedTime = 0;
 
 		if (!this.running) {
-			$('table#run tr.segment').removeClass('active');
+			$('div#run div.segment').removeClass('active');
 		}
 
 		for (segmentId in this.data.segments) {
 			var segment = this.data.segments[segmentId];
-			var $segment = $('table#run tr#segment' + segmentId);
-			$segment.find('td.difference').text('').removeClass('ahead behind gaining losing new-best');
+			var $segment = $('div#run div#segment' + segmentId);
+			$segment.find('div.difference').text('').removeClass('ahead behind gaining losing new-best');
 
 			var previousSegment = (segmentId > 0) ? this.data.segments[segmentId - 1] : null;
 
 			if (segment.split && segment.best && segment.best.split) {
-				var difference = this.clock.formatMilliseconds(segment.split - segment.best.split, true);
+				var difference = this.timer.formatMilliseconds(segment.split - segment.best.split, true);
 
-				$segment.find('td.difference').text(difference);
+				$segment.find('div.difference').text(difference);
 
 				if (difference[0] == '-') {
-					$segment.find('td.difference').removeClass('behind').addClass('ahead');
+					$segment.find('div.difference').removeClass('behind').addClass('ahead');
 
 				}
 				else {
-					$segment.find('td.difference').removeClass('ahead').addClass('behind');
+					$segment.find('div.difference').removeClass('ahead').addClass('behind');
 				}
 
 				if (previousSegment && previousSegment.best) {
 					if (segment.split - segment.best.split > previousSegment.split - previousSegment.best.split) {
-						$segment.find('td.difference').removeClass('gaining').addClass('losing');
+						$segment.find('div.difference').removeClass('gaining').addClass('losing');
 					}
 					else if (segment.split - segment.best.split < previousSegment.split - previousSegment.best.split) {
-						$segment.find('td.difference').removeClass('losing').addClass('gaining');
+						$segment.find('div.difference').removeClass('losing').addClass('gaining');
 					}
 				}
 			}
 
 			if (segment.duration && segment.best && segment.best.duration.individual) {
 				if (segment.duration < segment.best.duration.individual && (!segment.ignored || !segment.ignored.duration)) {
-					$segment.find('td.difference').addClass('new-best');
+					$segment.find('div.difference').addClass('new-best');
 				}
 			}
 
 			if (segment.duration) {
-				$segment.find('td.time').text(this.clock.formatMilliseconds(segment.duration));
+				$segment.find('div.time').text(this.timer.formatMilliseconds(segment.duration));
 			}
 
 			if (segment.split) {
-				$segment.find('td.split').text(this.clock.formatMilliseconds(segment.split));
+				$segment.find('div.split').text(this.timer.formatMilliseconds(segment.split));
 
 				if (segment.split > elapsedTime) {
 					elapsedTime = segment.split;
@@ -402,17 +402,17 @@ var run = {
 			}
 			else {
 				if (segment.best && segment.best.split) {
-					$segment.find('td.split').text(this.clock.formatMilliseconds(segment.best.split));
+					$segment.find('div.split').text(this.timer.formatMilliseconds(segment.best.split));
 				}
 				else {
-					$segment.find('td.split').text('-');
+					$segment.find('div.split').text('-');
 				}
 			}
 
 			if (!segment.active && segment.ignored && segment.ignored.split) {
 				$segment.addClass('ignored');
-				$segment.find('td.difference').text('-').removeClass('ahead behind gaining losing new-best');
-				$segment.find('td.split').text('-');
+				$segment.find('div.difference').text('-').removeClass('ahead behind gaining losing new-best');
+				$segment.find('div.split').text('-');
 			}
 			else {
 				$segment.removeClass('ignored');
@@ -420,52 +420,62 @@ var run = {
 
 		}
 
-		$('table#run tr.clock td.total').text(this.clock.formatMilliseconds(elapsedTime));
-		$('table#run tr.possible td.remaining').text(this.clock.formatMilliseconds(this.calculatePotentialBestRunRemaining()));
-		//$('table#run tr.possible td.predicted').text(this.clock.formatMilliseconds(this.calculatePredictedBestRunRemaining()));
-		$('table#run tr.possible td.predicted').text(this.clock.formatMilliseconds(this.calculateMedianRunRemaining()));
+		$('div#run div.timer').text(this.timer.formatMilliseconds(elapsedTime));
+		$('div#run div.stats div.stat.possible div.time').text(this.timer.formatMilliseconds(this.calculatePotentialBestRunRemaining()));
+		//$('div#run div.possible div.predicted').text(this.timer.formatMilliseconds(this.calculatePredictedBestRunRemaining()));
+		$('div#run div.stats div.stat.predicted div.time').text(this.timer.formatMilliseconds(this.calculateMedianRunRemaining()));
 	},
 	generateRunTable: function() {
-		$('table#run').remove();
+		$('div#run').remove();
 
-		var $run = $('<table id="run">');
+		var $run = $('<div id="run">');
 
-		var $gameHeader = $('<tr class="header"><th class="game" colspan="3">' + this.data.game + '</th></tr>');
-		var $goalHeader = $('<tr class="header"><th class="goal" colspan="3">' + this.data.goal + '</th></tr>');
+		var $runHeader = $('<div class="header">');
+		var $gameHeader = $('<div class="game">' + this.data.game + '</div>');
+		var $goalHeader = $('<div class="goal">' + this.data.goal + '</div>');
 
-		$run.append($gameHeader).append($goalHeader);
+		$runHeader.append($gameHeader).append($goalHeader);
+		$run.append($runHeader);
+
+		var $runSegments = $('<div class="segments">');
 
 		for (segmentId in this.data.segments) {
 			var segment = this.data.segments[segmentId];
-			var $segment = $('<tr id="segment' + segmentId + '" class="segment">');
+			var $segment = $('<div id="segment' + segmentId + '" class="segment">');
 
-			$segment.append('<td class="name">' + segment.name + '</td>');
-			$segment.append('<td class="difference"><br /></td>');
-			$segment.append('<td class="split">' + (segment.best && segment.best.split ? this.clock.formatMilliseconds(segment.best.split) : '-') + '</td>');
-			//$segment.append('<td class="split">' + this.clock.formatMilliseconds(segment.best.duration.run - segment.best.duration.individual) + '</td>');
+			$segment.append('<div class="name">' + segment.name + '</div>');
+			$segment.append('<div class="difference"></div>');
+			$segment.append('<div class="split">' + (segment.best && segment.best.split ? this.timer.formatMilliseconds(segment.best.split) : '-') + '</div>');
+			//$segment.append('<div class="split">' + this.timer.formatMilliseconds(segment.best.duration.run - segment.best.duration.individual) + '</div>');
 
-			$run.append($segment);
+			$runSegments.append($segment);
 		}
 
-		var $totalTime = $('<tr class="clock"><td class="total" colspan="3">0.00</td></tr>');
-		$run.append($totalTime);
+		$run.append($runSegments);
+
+		var $runClock = $('<div class="timer">0.00</div>');
+		$run.append($runClock);
+
+		var $runStats = $('<div class="stats">');
 
 		if (this.calculatePotentialBestRun() > 0) {
-			var $possiblePerfectTime = $('<tr class="possible"><td class="">Perfect Run</td><td class="perfect" colspan="2">' + this.clock.formatMilliseconds(this.calculatePotentialBestRun()) + '</td></tr>');
-			var $possibleRemainingTime = $('<tr class="possible"><td class="">Still Possible</td><td class="remaining" colspan="2">' + this.clock.formatMilliseconds(this.calculatePotentialBestRunRemaining()) + '</td></tr>');
-			//var $possiblePredictedTime = $('<tr class="possible"><td class="">More Likely</td><td class="predicted" colspan="2">' + this.clock.formatMilliseconds(this.calculatePredictedBestRunRemaining()) + '</td></tr>');
-			var $possiblePredictedTime = $('<tr class="possible"><td class="">More Likely</td><td class="predicted" colspan="2">' + this.clock.formatMilliseconds(this.calculateMedianRunRemaining()) + '</td></tr>');
+			var $possiblePerfectTime = $('<div class="stat perfect"><div class="name">Perfect Run</div><div class="time">' + this.timer.formatMilliseconds(this.calculatePotentialBestRun()) + '</div></div>');
+			var $possibleRemainingTime = $('<div class="stat possible"><div class="name">Still Possible</div><div class="time">' + this.timer.formatMilliseconds(this.calculatePotentialBestRunRemaining()) + '</div></div>');
+			//var $possiblePredictedTime = $('<div class="possible"><div class="">More Likely</div><div class="predicted">' + this.timer.formatMilliseconds(this.calculatePredictedBestRunRemaining()) + '</div></div>');
+			var $possiblePredictedTime = $('<div class="stat predicted"><div class="name">More Likely</div><div class="time">' + this.timer.formatMilliseconds(this.calculateMedianRunRemaining()) + '</div></div>');
 
-			$run.append($possiblePerfectTime);
-			$run.append($possibleRemainingTime);
-			$run.append($possiblePredictedTime);
+			$runStats.append($possiblePerfectTime);
+			$runStats.append($possibleRemainingTime);
+			$runStats.append($possiblePredictedTime);
 		}
 
-		$run.find('tr.segment:even').addClass('odd');
-		$run.find('tr.segment:first').addClass('first');
-		$run.find('tr.segment:last').addClass('last');
-		$run.find('tr.possible:first').addClass('first');
-		$run.find('tr.possible:last').addClass('last');
+		$run.append($runStats);
+
+		$run.find('div.segment:even').addClass('odd');
+		$run.find('div.segment:first').addClass('first');
+		$run.find('div.segment:last').addClass('last');
+		$run.find('div.stat:first').addClass('first');
+		$run.find('div.stat:last').addClass('last');
 
 		$('body').html($run);
 	},
@@ -617,19 +627,19 @@ var run = {
 	},
 	splitSegment: function(segmentId) {
 		this.data.segments[segmentId].active = false;
-		this.data.segments[segmentId].split = this.clock.runningTime();
+		this.data.segments[segmentId].split = this.timer.runningTime();
 		this.data.segments[segmentId].duration = this.data.segments[segmentId].split - this.data.segments[segmentId].start;
 
 	},
 	start: function() {
 		this.running = true;
 		this.saved = false;
-		this.clock.start(this.updateRunTable);
+		this.timer.start(this.updateRunTable);
 		this.advanceActiveSegment();
 	},
 	stop: function() {
 		this.running = false;
-		this.clock.stop();
+		this.timer.stop();
 		this.finalizeRunTable();
 	},
 	unsplit: function() {
@@ -638,30 +648,30 @@ var run = {
 	},
 	unsplitSegment: function(segmentId) {
 		this.data.segments[segmentId].active = false;
-		this.data.segments[segmentId].split = this.clock.runningTime();
+		this.data.segments[segmentId].split = this.timer.runningTime();
 		this.data.segments[segmentId].duration = this.data.segments[segmentId].split - this.data.segments[segmentId].start;
 
 	},
 	updateRunTable: function() {
-		$('table#run tr.segment').removeClass('active');
+		$('div#run div.segment').removeClass('active');
 
 		var activeSegmentId = run.activeSegmentId();
-		var $activeSegment = $('table#run tr#segment' + activeSegmentId + '.segment').addClass('active');
-		var $clock = $('table#run tr.clock');
+		var $activeSegment = $('div#run div#segment' + activeSegmentId + '.segment').addClass('active');
+		var $timer = $('div#run div.timer');
 
-		//$activeSegment.find('td.split').text(run.clock.elapsed());
-		$clock.find('td.total').text(run.clock.elapsed());
+		//$activeSegment.find('div.split').text(run.timer.elapsed());
+		$timer.text(run.timer.elapsed());
 
 		if (run.data.segments[activeSegmentId].best && run.data.segments[activeSegmentId].best.split) {
-			var difference = run.clock.elapsedSince(run.data.segments[activeSegmentId].best.split);
+			var difference = run.timer.elapsedSince(run.data.segments[activeSegmentId].best.split);
 
-			$activeSegment.find('td.difference').text(difference);
+			$activeSegment.find('div.difference').text(difference);
 
 			if (difference[0] == '-') {
-				$activeSegment.find('td.difference').removeClass('behind').addClass('ahead');
+				$activeSegment.find('div.difference').removeClass('behind').addClass('ahead');
 			}
 			else {
-				$activeSegment.find('td.difference').removeClass('ahead').addClass('behind');
+				$activeSegment.find('div.difference').removeClass('ahead').addClass('behind');
 			}
 		}
 	},
@@ -674,9 +684,9 @@ var run = {
 
 			sum += timeSave;
 
-			console.log(segment.name + ': ' + this.clock.formatMilliseconds(timeSave));
+			console.log(segment.name + ': ' + this.timer.formatMilliseconds(timeSave));
 		}
-		console.log('Total: ' + this.clock.formatMilliseconds(sum));
+		console.log('Total: ' + this.timer.formatMilliseconds(sum));
 	}
 };
 
