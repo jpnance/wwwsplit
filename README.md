@@ -27,7 +27,9 @@ Despite wwwsplit's youth, there are still some things that I quite like about it
   * Unsplit segment
   * Skip segment
   * Save splits
-* Completely browser-based, using plain old HTML, CSS, and JavaScript (with jQuery). With no development stack to set up, the overhead for contributors is as low as it can be.
+* Completely browser-based, using plain old HTML, CSS, and JavaScript (with jQuery). This has a couple of huge benefits.
+  * wwwsplit works--and works the same way--on any platform that supports a web browser, whether it be Windows, Mac OS X, Linux, or otherwise.
+  * With no development stack to set up, the overhead for contributors is as low as it can be.
 * Utilizes the localStorage object to save your segment data and splits.
 * A clean, minimal aesthetic that's easily modifiable by anybody familiar with CSS.
 * More meaningful names for the standard speedrun timer statistics.
