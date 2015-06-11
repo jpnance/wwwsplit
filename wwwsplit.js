@@ -257,88 +257,8 @@ var run = {
 
 		return sumOfCurrentSegmentDurations + sumOfPredictedSegmentDurations;
 	},
-	timer: {
-		anchor: null,
-		date: null,
-		elapsed: function(since) {
-			return this.formatMilliseconds(this.time() - this.anchor);
-		},
-		elapsedSince: function(time) {
-			return this.formatMilliseconds(this.time() - this.anchor - time, true);
-		},
-		formatMilliseconds: function(milliseconds, explicitSign) {
-			milliseconds = Math.round(milliseconds / 10) * 10;
-
-			var sign = (milliseconds < 0) ? '-' : (explicitSign ? '+' : '');
-
-			milliseconds = Math.abs(milliseconds);
-
-			var hours = Math.floor(milliseconds / (1000 * 60 * 60));
-			var minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
-			var seconds = Math.floor(milliseconds / 1000) % 60;
-			var centiseconds = Math.floor((milliseconds % 1000) / 10);
-
-			var formattedTime;
-
-			if (centiseconds < 10) {
-				centiseconds = '0' + centiseconds;
-			}
-
-			if (centiseconds == 100) {
-				centiseconds = '00';
-			}
-
-			formattedTime = centiseconds;
-
-			if (seconds > 0) {
-				if (minutes > 0 && seconds < 10) {
-					seconds = '0' + seconds;
-				}
-
-				formattedTime = seconds + '.' + formattedTime;
-			}
-			else if (seconds == 0) {
-				if (minutes > 0) {
-					formattedTime = '00' + '.' + formattedTime;
-				}
-				else {
-					formattedTime = '0' + '.' + formattedTime;
-				}
-			}
-
-			if (minutes > 0) {
-				if (hours > 0 && minutes < 10) {
-					minutes = '0' + minutes;
-				}
-
-				formattedTime = minutes + ':' + formattedTime;
-			}
-
-			if (hours > 0) {
-				formattedTime = hours + ':' + formattedTime;
-			}
-
-			return sign + formattedTime;
-		},
-		interval: null,
-		runningTime: function() {
-			return this.time() - this.anchor;
-		},
-		start: function(callback) {
-			this.anchor = this.time();
-			this.interval = setInterval(callback, 10);
-		},
-		stop: function() {
-			clearInterval(this.interval);
-		},
-		time: function() {
-			delete this.date;
-			this.date = new Date();
-			return this.date.getTime();
-		},
-		unformatMilliseconds: function(minutes, seconds, centiseconds) {
-			return (minutes * 60 * 1000) + (seconds * 1000) + (centiseconds * 10 + 4);
-		}
+	config: {
+		scrollAfter: 7 // specifies the number of splits after which we should start automatically scrolling down the list
 	},
 	deactivateSegment: function(segmentId) {
 		this.data.segments[segmentId].active = false;
@@ -424,6 +344,13 @@ var run = {
 		$('div#run div.stats div.stat.possible div.time').text(this.timer.formatMilliseconds(this.calculatePotentialBestRunRemaining()));
 		//$('div#run div.possible div.predicted').text(this.timer.formatMilliseconds(this.calculatePredictedBestRunRemaining()));
 		$('div#run div.stats div.stat.predicted div.time').text(this.timer.formatMilliseconds(this.calculateMedianRunRemaining()));
+
+		var activeSegmentId = this.activeSegmentId();
+		var totalSegments = this.data.segments.length;
+
+		if (activeSegmentId > this.config.scrollAfter) {
+			$('div#run div.segments').animate({ 'scrollTop': 24 * (activeSegmentId - this.config.scrollAfter) }, 200);
+		}
 	},
 	generateRunTable: function() {
 		$('div#run').remove();
@@ -641,6 +568,89 @@ var run = {
 		this.running = false;
 		this.timer.stop();
 		this.finalizeRunTable();
+	},
+	timer: {
+		anchor: null,
+		date: null,
+		elapsed: function(since) {
+			return this.formatMilliseconds(this.time() - this.anchor);
+		},
+		elapsedSince: function(time) {
+			return this.formatMilliseconds(this.time() - this.anchor - time, true);
+		},
+		formatMilliseconds: function(milliseconds, explicitSign) {
+			milliseconds = Math.round(milliseconds / 10) * 10;
+
+			var sign = (milliseconds < 0) ? '-' : (explicitSign ? '+' : '');
+
+			milliseconds = Math.abs(milliseconds);
+
+			var hours = Math.floor(milliseconds / (1000 * 60 * 60));
+			var minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
+			var seconds = Math.floor(milliseconds / 1000) % 60;
+			var centiseconds = Math.floor((milliseconds % 1000) / 10);
+
+			var formattedTime;
+
+			if (centiseconds < 10) {
+				centiseconds = '0' + centiseconds;
+			}
+
+			if (centiseconds == 100) {
+				centiseconds = '00';
+			}
+
+			formattedTime = centiseconds;
+
+			if (seconds > 0) {
+				if (minutes > 0 && seconds < 10) {
+					seconds = '0' + seconds;
+				}
+
+				formattedTime = seconds + '.' + formattedTime;
+			}
+			else if (seconds == 0) {
+				if (minutes > 0) {
+					formattedTime = '00' + '.' + formattedTime;
+				}
+				else {
+					formattedTime = '0' + '.' + formattedTime;
+				}
+			}
+
+			if (minutes > 0) {
+				if (hours > 0 && minutes < 10) {
+					minutes = '0' + minutes;
+				}
+
+				formattedTime = minutes + ':' + formattedTime;
+			}
+
+			if (hours > 0) {
+				formattedTime = hours + ':' + formattedTime;
+			}
+
+			return sign + formattedTime;
+		},
+		interval: null,
+		runningTime: function() {
+			return this.time() - this.anchor;
+		},
+		start: function(callback) {
+			this.anchor = this.time();
+			this.interval = setInterval(callback, 10);
+		},
+		stop: function() {
+			clearInterval(this.interval);
+		},
+		time: function() {
+			delete this.date;
+			this.date = new Date();
+			return this.date.getTime();
+		},
+		unformatMilliseconds: function(minutes, seconds, centiseconds) {
+			return (minutes * 60 * 1000) + (seconds * 1000) + (centiseconds * 10 + 4);
+		}
 	},
 	unsplit: function() {
 		this.regressActiveSegment();
