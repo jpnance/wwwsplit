@@ -52,6 +52,67 @@ var data = {
 	*/
 }
 
+var data2 = {
+	game: 'Super Mario World 2: Yoshi\'s Island',
+	goal: 'Any% Warpless',
+	segments: [
+		{ name: "1-1: Make Eggs, Throw Eggs" },
+		{ name: "1-2: Watch Out Below!" },
+		{ name: "1-3: The Cave of Chomp Rock" },
+		{ name: "1-4: Burt the Bashful's Fort" },
+		{ name: "1-5: Hop! Hop! Donut Lifts" },
+		{ name: "1-6: Shy-Guys On Stilts" },
+		{ name: "1-7: Touch Fuzzy Get Dizzy" },
+		{ name: "1-8: Salvo the Slime's Castle" },
+		{ name: "1-E: Poochy Ain't Stupid" },
+		{ name: "2-1: Visit Koopa and Para-Koopa" },
+		{ name: "2-2: The Baseball Boys" },
+		{ name: "2-3: What's Gusty Taste Like" },
+		{ name: "2-4: Bigger Boo's Fort" },
+		{ name: "2-5: Watch Out For Lakitu!" },
+		{ name: "2-6: The Cave of the Mystery Maze" },
+		{ name: "2-7: Lakitu's Wall" },
+		{ name: "2-8: The Potted Ghost's Castle" },
+		{ name: "2-E: Hit That Switch!!" },
+		{ name: "3-1: Welcome to Monkey Island" },
+		{ name: "3-2: Jungle Rhythm . . ." },
+		{ name: "3-3: Nep-Enuts' Domain" },
+		{ name: "3-4: Prince Froggy's Fort" },
+		{ name: "3-5: Jammin' Through The Trees" },
+		{ name: "3-6: The Cave Of Harry Hedgehog" },
+		{ name: "3-7: Monkeys' Favorite Lake" },
+		{ name: "3-8: Naval Piranha's Castle" },
+		{ name: "3-E: More Monkey Madness" },
+		{ name: "4-1: GO! GO! MARIO! !" },
+		{ name: "4-2: The Cave Of The Lakitus" },
+		{ name: "4-3: Don't Look Back!" },
+		{ name: "4-4: Marching Milde's Fort" },
+		{ name: "4-5: Chomp Rock Zone" },
+		{ name: "4-6: Lake Shore Paradise" },
+		{ name: "4-7: Ride Like The Wind" },
+		{ name: "4-8: Hookbill The Koopa's Castle" },
+		{ name: "4-E: The Impossible? Maze" },
+		{ name: "5-1: BLIZZARD! ! !" },
+		{ name: "5-2: Ride The Sky Lifts" },
+		{ name: "5-3: Danger, Icy Conditions Ahead!" },
+		{ name: "5-4: Sluggy The Unshaven's Fort" },
+		{ name: "5-5: Goonie Rides!" },
+		{ name: "5-6: Welcome To Cloud World" },
+		{ name: "5-7: Shifting Platforms Ahead" },
+		{ name: "5-8: Raphael The Raven's Castle" },
+		{ name: "5-E: Kamek's Revenge" },
+		{ name: "6-1: Scary Skeleton Goonies!" },
+		{ name: "6-2: The Cave Of The Bandits" },
+		{ name: "6-3: Beware The Spinning Logs" },
+		{ name: "6-4: Tap-Tap The Red Nose's Fort" },
+		{ name: "6-5: The Very Loooooong Cave" },
+		{ name: "6-6: The Deep, Underground Maze" },
+		{ name: "6-7: KEEP MOVING! ! ! !" },
+		{ name: "6-8: King Bowser's Castle" },
+		{ name: "6-E: Castles - Masterpiece Set" }
+	]
+}
+
 var run = {
 	activateSegment: function(segmentId) {
 		this.data.segments[segmentId].active = true;
