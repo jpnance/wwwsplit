@@ -395,6 +395,16 @@ var run = {
 			$runStats.append($possibleRemainingTime);
 			$runStats.append($possiblePredictedTime);
 		}
+		else {
+			var $possiblePerfectTime = $('<div class="stat perfect"><div class="name">Perfect Run</div><div class="time">-</div></div>');
+			var $possibleRemainingTime = $('<div class="stat possible"><div class="name">Still Possible</div><div class="time">-</div></div>');
+			//var $possiblePredictedTime = $('<div class="possible"><div class="">More Likely</div><div class="predicted">-</div></div>');
+			var $possiblePredictedTime = $('<div class="stat predicted"><div class="name">More Likely</div><div class="time">-</div></div>');
+
+			$runStats.append($possiblePerfectTime);
+			$runStats.append($possibleRemainingTime);
+			$runStats.append($possiblePredictedTime);
+		}
 
 		$run.append($runStats);
 
