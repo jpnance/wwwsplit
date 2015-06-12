@@ -276,7 +276,9 @@ var run = {
 		for (segmentId in this.data.segments) {
 			var segment = this.data.segments[segmentId];
 			var $segment = $('div#run div#segment' + segmentId);
+			var $slice = $('div#run div#slice' + segmentId);
 			$segment.find('div.difference').text('').removeClass('ahead behind gaining losing new-best');
+			$slice.removeClass('ahead behind gaining losing new-best');
 
 			var previousSegment = (segmentId > 0) ? this.data.segments[segmentId - 1] : null;
 
@@ -287,18 +289,21 @@ var run = {
 
 				if (difference[0] == '-') {
 					$segment.find('div.difference').removeClass('behind').addClass('ahead');
-
+					$slice.removeClass('behind').addClass('ahead');
 				}
 				else {
 					$segment.find('div.difference').removeClass('ahead').addClass('behind');
+					$slice.removeClass('ahead').addClass('behind');
 				}
 
 				if (previousSegment && previousSegment.best) {
 					if (segment.split - segment.best.split > previousSegment.split - previousSegment.best.split) {
 						$segment.find('div.difference').removeClass('gaining').addClass('losing');
+						$slice.removeClass('gaining').addClass('losing');
 					}
 					else if (segment.split - segment.best.split < previousSegment.split - previousSegment.best.split) {
 						$segment.find('div.difference').removeClass('losing').addClass('gaining');
+						$slice.removeClass('losing').addClass('gaining');
 					}
 				}
 			}
@@ -306,6 +311,7 @@ var run = {
 			if (segment.duration && segment.best && segment.best.duration.individual) {
 				if (segment.duration < segment.best.duration.individual && (!segment.ignored || !segment.ignored.duration)) {
 					$segment.find('div.difference').addClass('new-best');
+					$slice.addClass('new-best');
 				}
 			}
 
@@ -333,9 +339,13 @@ var run = {
 				$segment.addClass('ignored');
 				$segment.find('div.difference').text('-').removeClass('ahead behind gaining losing new-best');
 				$segment.find('div.split').text('-');
+
+				$slice.addClass('ignored');
+				$slice.removeClass('ahead behind gaining losing new-best');
 			}
 			else {
 				$segment.removeClass('ignored');
+				$slice.removeClass('ignored');
 			}
 
 		}
@@ -365,6 +375,7 @@ var run = {
 		$run.append($runHeader);
 
 		var $runSegments = $('<div class="segments">');
+		var $runGraph = $('<div class="graph">');
 
 		for (segmentId in this.data.segments) {
 			var segment = this.data.segments[segmentId];
@@ -376,9 +387,23 @@ var run = {
 			//$segment.append('<div class="split">' + this.timer.formatMilliseconds(segment.best.duration.run - segment.best.duration.individual) + '</div>');
 
 			$runSegments.append($segment);
+
+			var $slice = $('<div id="slice' + segmentId + '" class="slice">');
+			var sliceWidth = 100 / this.data.segments.length;
+
+			if (segmentId == this.data.segments.length - 1 && (sliceWidth % 1) != 0) {
+				sliceWidth = Math.ceil(295 - 295 * (sliceWidth * (this.data.segments.length - 1) / 100)) + 'px';
+			}
+			else {
+				sliceWidth += '%';
+			}
+
+			$slice.css({ width: sliceWidth });
+			$runGraph.append($slice);
 		}
 
 		$run.append($runSegments);
+		$run.append($runGraph);
 
 		var $runClock = $('<div class="timer">0.00</div>');
 		$run.append($runClock);
@@ -674,9 +699,11 @@ var run = {
 	},
 	updateRunTable: function() {
 		$('div#run div.segment').removeClass('active');
+		$('div#run div.slice').removeClass('active');
 
 		var activeSegmentId = run.activeSegmentId();
 		var $activeSegment = $('div#run div#segment' + activeSegmentId + '.segment').addClass('active');
+		var $activeSlice = $('div#run div#slice' + activeSegmentId + '.slice').addClass('active');
 		var $timer = $('div#run div.timer');
 
 		//$activeSegment.find('div.split').text(run.timer.elapsed());

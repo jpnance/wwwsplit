@@ -126,6 +126,48 @@ div#run {
 					min-width: 64px;
 				}
 
+		div#run div.graph {
+			border-top: 1px solid #999999;
+			font-size: 0;
+		}
+
+			div#run div.graph div.slice {
+				display: inline-block;
+				height: 6px;
+				width: 10%;
+			}
+
+			div#run div.graph div.slice.active {
+				background-color: #2658bd;
+			}
+
+			div#run div.graph div.slice.ahead,
+			div#run div.graph div.slice.ahead.gaining {
+				background-color: #00aa44;
+			}
+
+			div#run div.graph div.slice.ahead.losing {
+				background-color: #a2ebc1;
+			}
+
+			div#run div.graph div.slice.behind,
+			div#run div.graph div.slice.behind.losing {
+				background-color: #bb4444;
+			}
+
+			div#run div.graph div.slice.behind.gaining {
+				background-color: #e68787;
+			}
+
+			div#run div.graph div.slice.ahead.new-best,
+			div#run div.graph div.slice.behind.new-best {
+				background-color: #ffd700;
+			}
+
+			div#run div.graph div.slice.ignored {
+				background-color: #444;
+			}
+
 	div#run div.timer {
 		border-top: 1px solid #999999;
 		font-family: monospace;
