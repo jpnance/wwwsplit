@@ -42,6 +42,7 @@ These are the features that I'm most interested in adding to wwwsplit, roughly i
 * The ability to create your own segments without having to know any JavaScript.
 * Best splits mode wherein you're racing against your best splits for each segment rather than your fastest overall run.
 * Practice mode that focuses on timing one particular new trick, similar in concept to the "lap" function on many stopwatches.
+* More stats, maybe even converting "More Likely" into a rolling-average.
 * Support for user-supplied CSS, especially on a per-splits level.
 * Re-imagine the timer interface in general to always be a particular height, maybe predominantly showing the current segment with a little bit of information about the previous and next segments.
 * Collapsible segment groups so you can, for instance, combine "1-1," "1-2," and "1-3" into one group called "World 1."
