@@ -805,6 +805,12 @@ $(document).ready(function() {
 				console.log('segments: ' + JSON.stringify(run.data.segments, run.replacer, '\t'));
 				break;
 
+			case 80: /* P is for purge localStorage.data; be careful with this */
+				if (e.shiftKey) {
+					localStorage.data = null;
+				}
+				break;
+
 			case 82: /* R is for reset */
 				if (e.shiftKey) {
 					if (run.running) {
