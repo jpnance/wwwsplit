@@ -451,6 +451,9 @@ var run = {
 			}
 		}
 	},
+	purge: function() {
+		localStorage.data = null;
+	},
 	regressActiveSegment: function() {
 		var activeSegmentId = this.activeSegmentId();
 
@@ -803,12 +806,6 @@ $(document).ready(function() {
 			case 79: /* o is for output segment data */
 				console.log('segments: ' + JSON.stringify(run.data.segments));
 				console.log('segments: ' + JSON.stringify(run.data.segments, run.replacer, '\t'));
-				break;
-
-			case 80: /* P is for purge localStorage.data; be careful with this */
-				if (e.shiftKey) {
-					localStorage.data = null;
-				}
 				break;
 
 			case 82: /* R is for reset */
