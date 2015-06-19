@@ -350,10 +350,13 @@ var run = {
 
 		}
 
+		var potentialBestRunRemaining = this.calculatePotentialBestRunRemaining();
+		var medianRunRemaining = this.calculateMedianRunRemaining();
+
 		$('div#run div.timer').text(this.timer.formatMilliseconds(elapsedTime));
-		$('div#run div.stats div.stat.possible div.time').text(this.timer.formatMilliseconds(this.calculatePotentialBestRunRemaining()));
+		$('div#run div.stats div.stat.possible div.time').text(potentialBestRunRemaining != 0 ? this.timer.formatMilliseconds(potentialBestRunRemaining) : '-');
 		//$('div#run div.possible div.predicted').text(this.timer.formatMilliseconds(this.calculatePredictedBestRunRemaining()));
-		$('div#run div.stats div.stat.predicted div.time').text(this.timer.formatMilliseconds(this.calculateMedianRunRemaining()));
+		$('div#run div.stats div.stat.predicted div.time').text(medianRunRemaining != 0 ? this.timer.formatMilliseconds(medianRunRemaining) : '-');
 
 		var activeSegmentId = this.activeSegmentId();
 		var totalSegments = this.data.segments.length;
