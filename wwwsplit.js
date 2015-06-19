@@ -380,6 +380,9 @@ var run = {
 		var $runSegments = $('<div class="segments">');
 		var $runGraph = $('<div class="graph">');
 
+		var totalPixels = 0;
+		var carryOverPixels = 0.0;
+
 		for (segmentId in this.data.segments) {
 			var segment = this.data.segments[segmentId];
 			var $segment = $('<div id="segment' + segmentId + '" class="segment">');
@@ -392,16 +395,25 @@ var run = {
 			$runSegments.append($segment);
 
 			var $slice = $('<div id="slice' + segmentId + '" class="slice">');
-			var sliceWidth = 100 / this.data.segments.length;
+
+			var sliceWidth = 295 / this.data.segments.length;
 
 			if (segmentId == this.data.segments.length - 1 && (sliceWidth % 1) != 0) {
-				sliceWidth = Math.ceil(295 - 295 * (sliceWidth * (this.data.segments.length - 1) / 100)) + 'px';
+				sliceWidth = 295 - totalPixels;
 			}
 			else {
-				sliceWidth += '%';
+				carryOverPixels += sliceWidth - Math.floor(sliceWidth);
+				sliceWidth = Math.floor(sliceWidth);
+
+				if (carryOverPixels > 1) {
+					sliceWidth++;
+					carryOverPixels--;
+				}
+
+				totalPixels += sliceWidth;
 			}
 
-			$slice.css({ width: sliceWidth });
+			$slice.css({ width: sliceWidth + 'px' });
 			$runGraph.append($slice);
 		}
 
