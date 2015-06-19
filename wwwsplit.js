@@ -518,48 +518,50 @@ var run = {
 		var totalRunDuration = this.data.segments[this.data.segments.length - 1].split;
 		var totalBestRunDuration = null;
 
-		if (this.data.segments[this.data.segments.length - 1].best) {
-			totalBestRunDuration = this.data.segments[this.data.segments.length - 1].best.split;
-		}
-
-		for (segmentId in this.data.segments) {
-			var segment = this.data.segments[segmentId];
-			var ignoreDuration = segment.ignored && segment.ignored.duration;
-			var ignoreSplit = segment.ignored && segment.ignored.split;
-
-			if (!segment.best) {
-				this.data.segments[segmentId].best = { split: null, duration: {} };
+		if (totalRunDuration) {
+			if (this.data.segments[this.data.segments.length - 1].best) {
+				totalBestRunDuration = this.data.segments[this.data.segments.length - 1].best.split;
 			}
 
-			if (!segment.best.duration.individual || segment.duration < segment.best.duration.individual) {
+			for (segmentId in this.data.segments) {
+				var segment = this.data.segments[segmentId];
+				var ignoreDuration = segment.ignored && segment.ignored.duration;
+				var ignoreSplit = segment.ignored && segment.ignored.split;
+
+				if (!segment.best) {
+					this.data.segments[segmentId].best = { split: null, duration: {} };
+				}
+
+				if (!segment.best.duration.individual || segment.duration < segment.best.duration.individual) {
+					if (!ignoreDuration) {
+						this.data.segments[segmentId].best.duration.individual = segment.duration;
+					}
+				}
+
+				if (!totalBestRunDuration || totalRunDuration < totalBestRunDuration) {
+					if (!ignoreSplit) {
+						this.data.segments[segmentId].best.split = this.data.segments[segmentId].split;
+					}
+					else {
+						this.data.segments[segmentId].best.split = null;
+					}
+
+					if (!ignoreDuration) {
+						this.data.segments[segmentId].best.duration.run = this.data.segments[segmentId].duration;
+					}
+					else {
+						this.data.segments[segmentId].best.duration.run = null;
+					}
+				}
+
+				if (!segment.history) {
+					segment.history = [];
+					this.data.segments[segmentId].history = [];
+				}
+
 				if (!ignoreDuration) {
-					this.data.segments[segmentId].best.duration.individual = segment.duration;
+					this.data.segments[segmentId].history.push(segment.duration);
 				}
-			}
-
-			if (!totalBestRunDuration || totalRunDuration < totalBestRunDuration) {
-				if (!ignoreSplit) {
-					this.data.segments[segmentId].best.split = this.data.segments[segmentId].split;
-				}
-				else {
-					this.data.segments[segmentId].best.split = null;
-				}
-
-				if (!ignoreDuration) {
-					this.data.segments[segmentId].best.duration.run = this.data.segments[segmentId].duration;
-				}
-				else {
-					this.data.segments[segmentId].best.duration.run = null;
-				}
-			}
-
-			if (!segment.history) {
-				segment.history = [];
-				this.data.segments[segmentId].history = [];
-			}
-
-			if (!ignoreDuration) {
-				this.data.segments[segmentId].history.push(segment.duration);
 			}
 		}
 
