@@ -169,6 +169,9 @@ var run = {
 			else if (segment.best && segment.best.duration.individual) {
 				sumOfBestSegmentDurations += segment.best.duration.individual;
 			}
+			else {
+				return 0;
+			}
 		}
 
 		return sumOfCurrentSegmentDurations + sumOfBestSegmentDurations;
@@ -222,6 +225,9 @@ var run = {
 				}
 
 				sumOfPredictedSegmentDurations += median;
+			}
+			else {
+				return 0;
 			}
 		}
 
