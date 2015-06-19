@@ -794,7 +794,7 @@ $(document).ready(function() {
 			case 55: /* 7 is for load set of segments #7 */
 			case 56: /* 8 is for load set of segments #8 */
 			case 57: /* 9 is for load set of segments #9 */
-				if (!run.running && !e.altKey && !e.shiftKey && !e.metaKey) {
+				if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
 					run.reset();
 					run.load(e.keyCode - 48);
 				}
@@ -809,7 +809,7 @@ $(document).ready(function() {
 				break;
 
 			case 82: /* R is for reset */
-				if (e.shiftKey) {
+				if (e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
 					if (run.running) {
 						run.stop();
 					}
@@ -821,14 +821,16 @@ $(document).ready(function() {
 				break;
 
 			case 83: /* s is for skip; S is for save */
-				if (e.shiftKey) {
-					if (!run.running && !run.saved) {
-						run.save();
+				 if (!e.altKey && !e.ctrlKey && !e.metaKey) {
+					if (e.shiftKey) {
+						if (!run.running && !run.saved) {
+							run.save();
+						}
 					}
-				}
-				else {
-					if (run.running) {
-						run.skipSplit();
+					else {
+						if (run.running) {
+							run.skipSplit();
+						}
 					}
 				}
 
