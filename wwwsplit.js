@@ -703,6 +703,19 @@ var run = {
 			return (minutes * 60 * 1000) + (seconds * 1000) + (centiseconds * 10 + 4);
 		}
 	},
+	timeSaves: function() {
+		var sum = 0;
+
+		for (segmentId in this.data.segments) {
+			var segment = this.data.segments[segmentId];
+			var timeSave = segment.best.duration.run - segment.best.duration.individual;
+
+			sum += timeSave;
+
+			console.log(segment.name + ': ' + this.timer.formatMilliseconds(timeSave));
+		}
+		console.log('Total: ' + this.timer.formatMilliseconds(sum));
+	},
 	unsplit: function() {
 		this.regressActiveSegment();
 		this.finalizeRunTable();
@@ -737,19 +750,6 @@ var run = {
 				$activeSegment.find('div.difference').removeClass('ahead').addClass('behind');
 			}
 		}
-	},
-	timeSaves: function() {
-		var sum = 0;
-
-		for (segmentId in this.data.segments) {
-			var segment = this.data.segments[segmentId];
-			var timeSave = segment.best.duration.run - segment.best.duration.individual;
-
-			sum += timeSave;
-
-			console.log(segment.name + ': ' + this.timer.formatMilliseconds(timeSave));
-		}
-		console.log('Total: ' + this.timer.formatMilliseconds(sum));
 	}
 };
 
