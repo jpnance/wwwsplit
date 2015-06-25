@@ -676,6 +676,11 @@ var run = {
 
 				formattedTime = minutes + ':' + formattedTime;
 			}
+			else if (minutes == 0) {
+				if (hours > 0) {
+					formattedTime = '00' + ':' + formattedTime;
+				}
+			}
 
 			if (hours > 0) {
 				formattedTime = hours + ':' + formattedTime;
