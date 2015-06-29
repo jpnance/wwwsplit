@@ -396,7 +396,7 @@ var run = {
 		$run.append($runSegments);
 		$run.append($runGraph);
 
-		var $runClock = $('<div class="timer">0.00</div>');
+		var $runClock = $('<div class="timer">' + this.timer.formatMilliseconds(0) + '</div>');
 		$run.append($runClock);
 
 		var $runStats = $('<div class="stats">');
