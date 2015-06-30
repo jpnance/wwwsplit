@@ -661,7 +661,7 @@ var run = {
 				formattedTime = seconds + '.' + formattedTime;
 			}
 			else if (seconds == 0) {
-				if (minutes > 0) {
+				if (minutes > 0 || hours > 0) {
 					formattedTime = '00' + '.' + formattedTime;
 				}
 				else {
