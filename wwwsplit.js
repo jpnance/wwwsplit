@@ -152,6 +152,9 @@ var run = {
 			if (segment.best && segment.best.duration.individual) {
 				sumOfBestSegmentDurations += segment.best.duration.individual;
 			}
+			else {
+				return 0;
+			}
 		}
 
 		return sumOfBestSegmentDurations;
@@ -209,7 +212,7 @@ var run = {
 			if (segment.duration) {
 				sumOfCurrentSegmentDurations += segment.duration;
 			}
-			else if (segment.history) {
+			else if (segment.history && segment.history.length > 0) {
 				var median = 0;
 				var history = segment.history.sort(function(a, b) { return a - b; });
 				var length = history.length;
@@ -401,11 +404,14 @@ var run = {
 
 		var $runStats = $('<div class="stats">');
 
+		var potentialBestRunRemaining = this.calculatePotentialBestRunRemaining();
+		var medianRunRemaining = this.calculateMedianRunRemaining();
+
 		if (this.calculatePotentialBestRun() > 0) {
 			var $possiblePerfectTime = $('<div class="stat perfect"><div class="name">Perfect Run</div><div class="time">' + this.timer.formatMilliseconds(this.calculatePotentialBestRun()) + '</div></div>');
-			var $possibleRemainingTime = $('<div class="stat possible"><div class="name">Still Possible</div><div class="time">' + this.timer.formatMilliseconds(this.calculatePotentialBestRunRemaining()) + '</div></div>');
+			var $possibleRemainingTime = $('<div class="stat possible"><div class="name">Still Possible</div><div class="time">' + (potentialBestRunRemaining != 0 ? this.timer.formatMilliseconds(potentialBestRunRemaining) : '-') + '</div></div>');
 			//var $possiblePredictedTime = $('<div class="possible"><div class="">More Likely</div><div class="predicted">' + this.timer.formatMilliseconds(this.calculatePredictedBestRunRemaining()) + '</div></div>');
-			var $possiblePredictedTime = $('<div class="stat predicted"><div class="name">More Likely</div><div class="time">' + this.timer.formatMilliseconds(this.calculateMedianRunRemaining()) + '</div></div>');
+			var $possiblePredictedTime = $('<div class="stat predicted"><div class="name">More Likely</div><div class="time">' + (medianRunRemaining != 0 ? this.timer.formatMilliseconds(medianRunRemaining) : '-') + '</div></div>');
 
 			$runStats.append($possiblePerfectTime);
 			$runStats.append($possibleRemainingTime);
