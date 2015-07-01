@@ -713,8 +713,8 @@ var run = {
 			this.date = new Date();
 			return this.date.getTime();
 		},
-		unformatMilliseconds: function(minutes, seconds, centiseconds) {
-			return (minutes * 60 * 1000) + (seconds * 1000) + (centiseconds * 10 + 4);
+		unformatMilliseconds: function(hours, minutes, seconds, centiseconds) {
+			return (hours * 60 * 60 * 1000) + (minutes * 60 * 1000) + (seconds * 1000) + (centiseconds * 10 + 4);
 		}
 	},
 	timeSaves: function() {
