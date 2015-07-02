@@ -1,6 +1,8 @@
 # wwwsplit
 A completely browser-based timer intended for speedruns.
 
+## Demo
+A demo of wwwsplit can be viewed at http://jpnance.github.io/wwwsplit/.
 ## Controls
 All functions of wwwsplit are controlled by the keyboard. Note that all commands are case-sensitive.
 * Start timer (spacebar when the timer is stopped)
