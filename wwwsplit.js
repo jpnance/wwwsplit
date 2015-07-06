@@ -663,7 +663,7 @@ var run = {
 			formattedTime = centiseconds;
 
 			if (seconds > 0) {
-				if (minutes > 0 && seconds < 10) {
+				if ((minutes > 0 || hours > 0) && seconds < 10) {
 					seconds = '0' + seconds;
 				}
 
