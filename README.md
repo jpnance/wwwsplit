@@ -3,6 +3,7 @@ A completely browser-based timer intended for speedruns.
 
 ## Demo
 A demo of wwwsplit can be viewed at http://jpnance.github.io/wwwsplit/.
+
 ## Controls
 All functions of wwwsplit are controlled by the keyboard. Note that all commands are case-sensitive.
 * Start timer (spacebar when the timer is stopped)
@@ -44,7 +45,7 @@ Despite wwwsplit's youth, there are still some things that I quite like about it
 These are the features that I'm most interested in adding to wwwsplit, roughly in order.
 * The ability to create your own segments without having to know any JavaScript.
 * Anchor the final segment to the bottom of the segment list display so that it's always clear what your PB is.
-* Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple quick load support;
+* Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple quick load support.
 * Best splits mode wherein you're racing against your best splits for each segment rather than your fastest overall run.
 * Practice mode that focuses on timing one particular new trick, similar in concept to the "lap" function on many stopwatches.
 * More stats, maybe even converting "More Likely" into a rolling average.
@@ -59,4 +60,4 @@ These are the features that I'm most interested in adding to wwwsplit, roughly i
 * A pause timer control.
 
 ## What's Next
-I'm planning on learning a new game soon and that means I'll need to create a new set of segments for it. I'd like to implement that feature along with the ability to load other sets of segments.
+My main focus is allowing the user to create their own sets of segments without having to modify wwwsplit's JavaScript code.
