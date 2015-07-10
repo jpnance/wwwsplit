@@ -43,6 +43,7 @@ Despite wwwsplit's youth, there are still some things that I quite like about it
 ## Wish List
 These are the features that I'm most interested in adding to wwwsplit, roughly in order.
 * The ability to create your own segments without having to know any JavaScript.
+* Anchor the final segment to the bottom of the segment list display so that it's always clear what your PB is.
 * Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple quick load support;
 * Best splits mode wherein you're racing against your best splits for each segment rather than your fastest overall run.
 * Practice mode that focuses on timing one particular new trick, similar in concept to the "lap" function on many stopwatches.
