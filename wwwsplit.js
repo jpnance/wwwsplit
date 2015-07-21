@@ -175,6 +175,12 @@ var run = {
 			this.data.segments[splitId].duration = this.data.segments[splitId].split - this.data.segments[splitId].start;
 		}
 	},
+	bestTimes: function() {
+		for (segmentId in this.data.segments) {
+			var segment = this.data.segments[segmentId];
+			console.log(segment.name + ': ' + this.timer.formatMilliseconds(segment.best.duration.individual));
+		}
+	},
 	calculatePotentialBestRun: function() {
 		var sumOfBestSegmentDurations = 0;
 
