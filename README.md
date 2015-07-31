@@ -14,10 +14,12 @@ All functions of wwwsplit are controlled by the keyboard. Note that all commands
 * Skip segment (lowercase 's' when the timer is running)
 * Save splits (uppercase 'S' when the timer is stopped)
 * Quick-load segments (numbers 1-9 when the timer is stopped)
+* Add set of segments (lowercase 'a' when the timer is stopped)
+* Edit set of segments (lowercase 'e' when the timer is stopped)
 
 ## Limitations
 wwwsplit is a very young project that has so far been modified only according to my personal needs. As such, there are currently some major limitations that I'd like to document. I hope to make this list much shorter as the project matures.
-* Unless you're willing to modify the JavaScript (with a relatively simple change), wwwsplit only supports segment data that it comes loaded with, specifically my Super Mario 64 and Yoshi's Island routes.
+* Once you have a set of segments set up, you can't trust wwwsplit to do much beyond change a segment's name. Specifically, you can't (yet) remove, reorder, or duplicate a segment.
 * Because wwwsplit is browser-based, it requires a third-party program in order to support hotkeys (e.g. [BetterTouchTool](http://www.bettertouchtool.net/) on Mac OS X). Without hotkeys, wwwsplit's browser window must be focused in order to interact with it.
 * It's essentially untested in anything besides Firefox and Chrome on Mac OS X (Yosemite).
 
@@ -43,15 +45,20 @@ Despite wwwsplit's youth, there are still some things that I quite like about it
 
 ## Wish List
 These are the features that I'm most interested in adding to wwwsplit, roughly in order.
-* The ability to create your own segments without having to know any JavaScript.
 * Anchor the final segment to the bottom of the segment list display so that it's always clear what your PB is.
 * Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple quick load support.
-* Best splits mode wherein you're racing against your best splits for each segment rather than your fastest overall run.
-* Practice mode that focuses on timing one particular new trick, similar in concept to the "lap" function on many stopwatches.
+* The ability to delete a set of segments.
+* The ability to manipulate existing segments.
+  * Delete
+  * Reorder
+  * Duplicate
+  * Merge
 * More stats, maybe even converting "More Likely" into a rolling average.
   * Possible time save
   * Previous segment
   * Percentile needed to PB
+* Best splits mode wherein you're racing against your best splits for each segment rather than your fastest overall run.
+* Practice mode that focuses on timing one particular new trick, similar in concept to the "lap" function on many stopwatches.
 * Support for user-supplied CSS, especially on a per-splits level.
 * Re-imagine the timer interface in general to always be a particular height, maybe predominantly showing the current segment with a little bit of information about the previous and next segments.
 * Collapsible segment groups so you can, for instance, combine "1-1," "1-2," and "1-3" into one group called "World 1."
