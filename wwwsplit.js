@@ -2,7 +2,7 @@
 // * warmup mode
 // * be able to save splits from unfinished runs
 
-var data = [
+var data2 = [
 	{
 		id: 1,
 		game: 'Super Mario 64',
@@ -382,6 +382,83 @@ var run = {
 			$('div#run div.segments').animate({ 'scrollTop': 24 * (activeSegmentId - this.config.scrollAfter) }, 200);
 		}
 	},
+	gatherEdits: function() {
+		var data = {};
+
+		var id = $('input[name=id]').val();
+
+		if (id) {
+			id = parseInt(id);
+		}
+
+		var segmentsText = $('textarea[name=segments]').val();
+		var segmentStrings = segmentsText.split("\n");
+		var segments = [];
+
+		for (i in segmentStrings) {
+			segments[i] = {};
+			segments[i].name = segmentStrings[i];
+		}
+
+		data.id = parseInt(id);
+		data.game = $('input[name=game]').val();
+		data.category = $('input[name=category]').val();
+		data.segments = segments;
+
+		return data;
+	},
+	generateEditRunMarkup: function(editData) {
+		var id = null;
+		var game = '';
+		var category = '';
+		var segments = [];
+
+		if (editData != null) {
+			id = editData.id;
+			game = editData.game;
+			category = editData.category;
+			segments = editData.segments;
+		}
+
+		$('div#run').remove();
+
+		var $run = $('<div id="run">');
+
+		var $runHeader = $('<div class="header">');
+		var $gameHeader = $('<div class="game"><input name="game" type="text" value="' + game + '" placeholder="Game" tabindex="1" /></div>');
+		var $categoryHeader = $('<div class="category"><input name="category" type="text" value="' + category + '" placeholder="Category" tabindex="2" /></div>');
+
+		if (id) {
+			var $idHeader = $('<input name="id" type="hidden" value="' + id + '" />');
+			$runHeader.append($idHeader);
+		}
+
+		$runHeader.append($gameHeader).append($categoryHeader);
+		$run.append($runHeader);
+
+		var $runSegments = $('<div class="segments">');
+		var $segmentsTextarea = $('<textarea name="segments" tabindex="3">');
+
+		var segmentsString = '';
+
+		for (id in segments) {
+			segmentsString += segments[id].name + "\n";
+		}
+
+		$segmentsTextarea.append(segmentsString.trim());
+		$runSegments.append($segmentsTextarea);
+		$run.append($runSegments);
+
+		var $runActions = $('<div class="actions">');
+		var $saveButton = $('<button id="save" tabindex="4">Save</button>');
+		var $cancelSpan = $('<span> or <a id="cancel" href="#" tabindex="5">cancel</a></span>');
+
+		$runActions.append($saveButton);
+		$runActions.append($cancelSpan);
+		$run.append($runActions);
+
+		$('body').html($run);
+	},
 	generateRunTable: function() {
 		$('div#run').remove();
 
@@ -628,6 +705,10 @@ var run = {
 		this.saved = true;
 	},
 	saved: true,
+	saveEdits: function() {
+		var data = this.gatherEdits();
+		this.storeEdits(data);
+	},
 	skipSplit: function() {
 		// make sure we disregard all of the active split's time data...
 		var activeSegmentId = this.activeSegmentId();
@@ -663,6 +744,50 @@ var run = {
 		this.running = false;
 		this.timer.stop();
 		this.finalizeRunTable();
+	},
+	storeEdits: function(data) {
+		var allData = JSON.parse(localStorage.getItem('data'));
+
+		if (!allData) {
+			allData = [];
+		}
+
+		if (!data.id) {
+			data.id = allData.length + 1;
+		}
+
+		if (data.id > allData.length) {
+			allData.push(data);
+		}
+		else {
+			for (i in allData) {
+				if (allData[i].id == data.id) {
+					allData[i].game = data.game;
+					allData[i].category = data.category;
+
+					for (j in data.segments) {
+						if (!allData[i].segments[j]) {
+							allData[i].segments[j] = {};
+						}
+
+						allData[i].segments[j].name = data.segments[j].name;
+					}
+
+					break;
+				}
+			}
+		}
+
+		for (i in allData) {
+			if (allData[i].id == data.id) {
+				data = allData[i];
+				break;
+			}
+		}
+
+		this.data = data;
+		localStorage.setItem('data', JSON.stringify(allData, this.replacer));
+
 	},
 	timer: {
 		anchor: null,
@@ -807,91 +932,138 @@ $(document).ready(function() {
 
 	if (allData) {
 		run.load(1);
+		run.generateRunTable();
 	}
-	else {
+	else if (typeof data != 'undefined') {
 		run.data = data[0];
 		localStorage.setItem('data', JSON.stringify(data, run.replacer));
+		run.generateRunTable();
 	}
-
-	run.generateRunTable();
+	else {
+		run.editing = true;
+		run.generateEditRunMarkup();
+	}
 
 	$('body').keydown(function(e) {
 		//console.log(e);
 
-		switch (e.keyCode) {
-			case 8: /* backspace is for going back to the last split */
-				e.preventDefault();
-				if (run.running) {
-					run.unsplit();
-				}
-				break;
-
-			case 32: /* spacebar is for start/split */
-				if (!run.running) {
-					// don't start a new run until the previous one has been saved or reset
-					if (!run.saved) {
-						return;
-					}
-
-					run.reset();
-					run.start();
-				}
-				else {
-					run.split();
-				}
-
-				break;
-
-			case 49: /* 1 is for load set of segments #1 */
-			case 50: /* 2 is for load set of segments #2 */
-			case 51: /* 3 is for load set of segments #3 */
-			case 52: /* 4 is for load set of segments #4 */
-			case 53: /* 5 is for load set of segments #5 */
-			case 54: /* 6 is for load set of segments #6 */
-			case 55: /* 7 is for load set of segments #7 */
-			case 56: /* 8 is for load set of segments #8 */
-			case 57: /* 9 is for load set of segments #9 */
-				if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
-					run.reset();
-					run.load(e.keyCode - 48);
-				}
-				break;
-
-			case 76: /* l is for load */
-				break;
-
-			case 79: /* o is for output segment data */
-				console.log('segments: ' + JSON.stringify(run.data.segments));
-				console.log('segments: ' + JSON.stringify(run.data.segments, run.replacer, '\t'));
-				break;
-
-			case 82: /* R is for reset */
-				if (e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
+		if (!run.editing) {
+			switch (e.keyCode) {
+				case 8: /* backspace is for going back to the last split */
+					e.preventDefault();
 					if (run.running) {
-						run.stop();
+						run.unsplit();
 					}
-					else {
+					break;
+
+				case 32: /* spacebar is for start/split */
+					if (!run.running) {
+						// don't start a new run until the previous one has been saved or reset
+						if (!run.saved) {
+							return;
+						}
+
 						run.reset();
-					}
-				}
-
-				break;
-
-			case 83: /* s is for skip; S is for save */
-				 if (!e.altKey && !e.ctrlKey && !e.metaKey) {
-					if (e.shiftKey) {
-						if (!run.running && !run.saved) {
-							run.save();
-						}
+						run.start();
 					}
 					else {
+						run.split();
+					}
+
+					break;
+
+				case 49: /* 1 is for load set of segments #1 */
+				case 50: /* 2 is for load set of segments #2 */
+				case 51: /* 3 is for load set of segments #3 */
+				case 52: /* 4 is for load set of segments #4 */
+				case 53: /* 5 is for load set of segments #5 */
+				case 54: /* 6 is for load set of segments #6 */
+				case 55: /* 7 is for load set of segments #7 */
+				case 56: /* 8 is for load set of segments #8 */
+				case 57: /* 9 is for load set of segments #9 */
+					if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+						run.reset();
+						run.load(e.keyCode - 48);
+					}
+					break;
+
+				case 65: /* a is for add set of segments */
+					if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+						run.generateEditRunMarkup();
+						run.editing = true;
+					}
+
+					break;
+
+				case 69: /* e is for edit set of segments */
+					if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+						run.generateEditRunMarkup(run.data);
+						run.editing = true;
+					}
+
+					break;
+
+				case 76: /* l is for load */
+					break;
+
+				case 79: /* o is for output segment data */
+					console.log('segments: ' + JSON.stringify(run.data.segments));
+					console.log('segments: ' + JSON.stringify(run.data.segments, run.replacer, '\t'));
+					break;
+
+				case 82: /* R is for reset */
+					if (e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
 						if (run.running) {
-							run.skipSplit();
+							run.stop();
+						}
+						else {
+							run.reset();
 						}
 					}
-				}
 
-				break;
+					break;
+
+				case 83: /* s is for skip; S is for save */
+					 if (!e.altKey && !e.ctrlKey && !e.metaKey) {
+						if (e.shiftKey) {
+							if (!run.running && !run.saved) {
+								run.save();
+							}
+						}
+						else {
+							if (run.running) {
+								run.skipSplit();
+							}
+						}
+					}
+
+					break;
+			}
+		}
+		else {
+			/* escape is for leaving edit mode */
+			if (e.keyCode == 27) {
+				run.editing = false;
+				run.generateRunTable();
+			}
 		}
 	});
+
+	$('body').on('click', 'div#run div.actions button#save', function(e) {
+		e.preventDefault();
+
+		if (run.editing) {
+			run.editing = false;
+			run.saveEdits();
+			run.generateRunTable();
+		}
+	});
+
+	$('body').on('click', 'div#run div.actions a#cancel', function(e) {
+		e.preventDefault();
+
+		run.editing = false;
+		run.generateRunTable();
+	});
+
 });

@@ -12,16 +12,32 @@ div#run {
 	width: 295px;
 }
 
+	div#run input {
+		background-color: white;
+		border: 0;
+		color: #333;
+		font-family: monospace;
+	}
+
 	div#run div.header {
 		line-height: 1.05em;
 		text-align: center;
 		border-bottom: 1px solid #999999;
 	}
 
+		div#run div.header input {
+			text-align: center;
+			width: 100%;
+		}
+
 		div#run div.header div.game {
 			font-weight: bold;
 			padding-top: 1px;
 		}
+
+			div#run div.header div.game input {
+				font-weight: bold;
+			}
 
 		div#run div.header div.category {
 			font-size: 80%;
@@ -29,11 +45,22 @@ div#run {
 			padding-bottom: 4px;
 		}
 
+			div#run div.header div.category input {
+			}
+
 	div#run div.segments {
 		height: 240px;
 		overflow: auto;
 		width: 310px;
 	}
+
+		div#run div.segments textarea {
+			border: 0;
+			font-family: monospace;
+			font-size: 12px;
+			height: 100%;
+			width: 295px;
+		}
 
 		div#run div.segments div.segment {
 			border-top: 1px solid #333333;
@@ -209,3 +236,19 @@ div#run {
 				min-width: 64px;
 				text-align: right;
 			}
+
+	div#run div.actions {
+		border-top: 1px solid #999;
+		margin-top: 2px;
+		padding: 4px 2px 0px;
+		text-align: center;
+	}
+
+		div#run div.actions button#save {
+			cursor: pointer;
+			font-size: 90%;
+		}
+
+		div#run div.actions a#cancel {
+			color: #ff6a6a;
+		}
