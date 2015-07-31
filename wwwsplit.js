@@ -765,6 +765,17 @@ var run = {
 		else {
 			for (i in allData) {
 				if (allData[i].id == data.id) {
+					if (allData[i].segments.length != data.segments.length) {
+						var proceed = confirm('Changing the number of total segments in this run will erase all of its prior split data. Is that okay?');
+
+						if (!proceed) {
+							break;
+						}
+						else {
+							allData[i].segments = [];
+						}
+					}
+
 					allData[i].game = data.game;
 					allData[i].category = data.category;
 
