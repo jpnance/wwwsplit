@@ -2,7 +2,7 @@
 A completely browser-based timer intended for speedruns.
 
 ## Demo
-A demo of wwwsplit can be viewed at http://jpnance.github.io/wwwsplit/.
+A demo of wwwsplit can be viewed at http://jpnance.github.io/wwwsplit/. This is usable and will save your splits as long as you're using the same computer and browser each time you open it. It is, on the other hand, always going to represent the most current version of wwwsplit and your data will not necessarily be backwards-compatible as the project continues to evolve. I'll do my best to preserve it, though, as I use this timer, too.
 
 ## Controls
 All functions of wwwsplit are controlled by the keyboard. Note that all commands are case-sensitive.
