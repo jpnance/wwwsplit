@@ -971,6 +971,7 @@ $(document).ready(function() {
 					break;
 
 				case 32: /* spacebar is for start/split */
+					e.preventDefault();
 					if (!run.running) {
 						// don't start a new run until the previous one has been saved or reset
 						if (!run.saved) {
