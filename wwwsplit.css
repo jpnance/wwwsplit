@@ -252,3 +252,27 @@ div#run {
 		div#run div.actions a#cancel {
 			color: #ff6a6a;
 		}
+
+div#help {
+	display: none;
+	font-family: sans-serif;
+	font-size: 12px;
+	line-height: 14px;
+	margin: 8px;
+	overflow: hidden;
+	width: 295px;
+}
+
+	div#help dl {
+		color: #ccc;
+	}
+
+	div#help dd {
+		color: #666;
+		margin-bottom: 6px;
+		margin-left: 12px;
+	}
+
+		div#help dd strong {
+			color: #ccc;
+		}

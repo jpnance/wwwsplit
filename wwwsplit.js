@@ -440,7 +440,7 @@ var run = {
 		$run.append($runHeader);
 
 		var $runSegments = $('<div class="segments">');
-		var $segmentsTextarea = $('<textarea name="segments" tabindex="3">');
+		var $segmentsTextarea = $('<textarea name="segments" tabindex="3" placeholder="Segments; each segment should be on a separate line in this box.">');
 
 		var segmentsString = '';
 
@@ -460,7 +460,7 @@ var run = {
 		$runActions.append($cancelSpan);
 		$run.append($runActions);
 
-		$('body').html($run);
+		$('body').prepend($run);
 	},
 	generateRunTable: function() {
 		$('div#run').remove();
@@ -554,7 +554,7 @@ var run = {
 		$run.find('div.stat:first').addClass('first');
 		$run.find('div.stat:last').addClass('last');
 
-		$('body').html($run);
+		$('body').prepend($run);
 	},
 	ignoreSegmentSplit: function(segmentId) {
 		if (!this.data.segments[segmentId].ignored) {
@@ -991,6 +991,11 @@ $(document).ready(function() {
 					}
 					break;
 
+				case 27: /* escape is for turning off the help menu */
+					$('body div#run').show();
+					$('body div#help').hide();
+					break;
+
 				case 32: /* spacebar is for start/split */
 					e.preventDefault();
 					if (!run.running) {
@@ -1074,6 +1079,16 @@ $(document).ready(function() {
 					}
 
 					break;
+
+				case 191: /* ? is for help */
+					if (!e.altKey && !e.ctrlKey && !e.metaKey) {
+						if (e.shiftKey) {
+							$('body div#run').toggle();
+							$('body div#help').toggle();
+						}
+					}
+
+					break;
 			}
 		}
 		else {
@@ -1101,5 +1116,4 @@ $(document).ready(function() {
 		run.editing = false;
 		run.generateRunTable();
 	});
-
 });
