@@ -737,6 +737,27 @@ var run = {
 		this.data.segments[segmentId].duration = this.data.segments[segmentId].split - this.data.segments[segmentId].start;
 
 	},
+	standardDeviations: function() {
+		for (var segmentId in this.data.segments) {
+			var segment = this.data.segments[segmentId];
+
+			var sum = 0;
+			var variance = 0;
+
+			for (var id in segment.history) {
+				sum += segment.history[id];
+			}
+
+			var average = sum / segment.history.length;
+
+			for (var id in segment.history) {
+				variance += Math.pow(segment.history[id] - average, 2);
+			}
+
+			var stDev = Math.sqrt(variance / segment.history.length);
+			console.log(segment.name + ': ' + this.timer.formatMilliseconds(Math.round(stDev)));
+		}
+	},
 	start: function() {
 		this.running = true;
 		this.saved = false;
