@@ -550,7 +550,7 @@ var run = {
 
 		$run.find('div.segment:even').addClass('odd');
 		$run.find('div.segment:first').addClass('first');
-		$run.find('div.segment:last').addClass('last');
+		$run.find('div.segment:last').addClass('last').prev().addClass('next-to-last');
 		$run.find('div.stat:first').addClass('first');
 		$run.find('div.stat:last').addClass('last');
 

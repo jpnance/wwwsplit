@@ -63,7 +63,8 @@ div#run {
 		}
 
 		div#run div.segments div.segment {
-			border-top: 1px solid #333333;
+			background-color: black;
+			border-top: 1px solid #222;
 			color: #9a9a9a;
 			font-size: 0;
 			height: 11px;
@@ -82,7 +83,17 @@ div#run {
 			border-top: 1px solid transparent;
 		}
 
+		div#run div.segments div.segment.next-to-last {
+			margin-bottom: 24px;
+		}
+
 		div#run div.segments div.segment.last {
+			background-color: #222;
+			border-top: 1px solid #444;
+			line-height: 10px;
+			position: fixed;
+			width: 289px;
+			top: 264px;
 		}
 
 		div#run div.segments div.segment.active {
