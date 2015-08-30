@@ -46,7 +46,6 @@ Despite wwwsplit's youth, there are still some things that I quite like about it
 
 ## Wish List
 These are the features that I'm most interested in adding to wwwsplit, roughly in order.
-* Anchor the final segment to the bottom of the segment list display so that it's always clear what your PB is.
 * Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple quick load support.
 * The ability to delete a set of segments.
 * The ability to manipulate existing segments.
