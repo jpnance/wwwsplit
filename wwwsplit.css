@@ -274,13 +274,16 @@ div#help {
 	width: 295px;
 }
 
+	div#help dl {
+		margin-bottom: 12px;
+	}
+
 	div#help dt {
 		color: #ccc;
 	}
 
 	div#help dd {
 		color: #666;
-		margin-bottom: 6px;
 		margin-left: 12px;
 	}
 

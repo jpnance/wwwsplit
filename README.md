@@ -16,6 +16,8 @@ All functions of wwwsplit are controlled by the keyboard. Note that all commands
 * Quick-load segments (numbers 1-9 when the timer is stopped)
 * Add set of segments (lowercase 'a' when the timer is stopped)
 * Edit set of segments (lowercase 'e' when the timer is stopped)
+* Load next set of segments (lowercase 'n' when the timer is stopped)
+* Load previous set of segments (lowercase 'p' when the timer is stopped)
 * Show/hide help menu ('?' at any time)
 
 ## Limitations
@@ -46,8 +48,9 @@ Despite wwwsplit's youth, there are still some things that I quite like about it
 
 ## Wish List
 These are the features that I'm most interested in adding to wwwsplit, roughly in order.
-* Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple quick load support.
+* Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple slow and quick load support.
 * The ability to delete a set of segments.
+* A pause timer control.
 * The ability to manipulate existing segments.
   * Delete
   * Reorder
@@ -60,11 +63,11 @@ These are the features that I'm most interested in adding to wwwsplit, roughly i
 * Best splits mode wherein you're racing against your best splits for each segment rather than your fastest overall run.
 * Practice mode that focuses on timing one particular new trick, similar in concept to the "lap" function on many stopwatches.
 * Support for user-supplied CSS, especially on a per-splits level.
+* Support for user-defined controls.
 * Re-imagine the timer interface in general to always be a particular height, maybe predominantly showing the current segment with a little bit of information about the previous and next segments.
 * Collapsible segment groups so you can, for instance, combine "1-1," "1-2," and "1-3" into one group called "World 1."
 * splits.io and/or pbtracker.net integration. The restriction on cross-domain AJAX will make this tricky unless, for instance, one of those sites is willing to host wwwsplit. There are, however, ways around it that I may look in to.
 * Some brand of unit-testing so I can actually be confident that everything still works when I make changes.
-* A pause timer control.
 
 ## What's Next
 My main focus is allowing the user to create their own sets of segments without having to modify wwwsplit's JavaScript code.

@@ -1047,9 +1047,41 @@ $(document).ready(function() {
 				case 76: /* l is for load */
 					break;
 
+				case 78: /* n is for load next set of segments */
+					if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+						var allData = JSON.parse(localStorage.getItem('data'));
+
+						if (run.data.id == allData.length) {
+							var nextSegmentSetId = 1;
+						}
+						else {
+							var nextSegmentSetId = run.data.id + 1;
+						}
+
+						run.reset();
+						run.load(nextSegmentSetId);
+					}
+					break;
+
 				case 79: /* o is for output segment data */
 					console.log('segments: ' + JSON.stringify(run.data.segments));
 					console.log('segments: ' + JSON.stringify(run.data.segments, run.replacer, '\t'));
+					break;
+
+				case 80: /* p is for load previous set of segments */
+					if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
+						var allData = JSON.parse(localStorage.getItem('data'));
+
+						if (run.data.id == 1) {
+							var previousSegmentSetId = allData.length;
+						}
+						else {
+							var previousSegmentSetId = run.data.id - 1;
+						}
+
+						run.reset();
+						run.load(previousSegmentSetId);
+					}
 					break;
 
 				case 82: /* R is for reset */
