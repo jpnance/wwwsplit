@@ -74,4 +74,4 @@ These are the features that I'm most interested in adding to wwwsplit, roughly i
 * Some brand of unit-testing so I can actually be confident that everything still works when I make changes.
 
 ## What's Next
-My main focus is allowing the user to create their own sets of segments without having to modify wwwsplit's JavaScript code.
+My main focus will be on improving the way that new sets of segments are stored on the back end. 
