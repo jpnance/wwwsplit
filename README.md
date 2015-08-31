@@ -50,6 +50,10 @@ Despite wwwsplit's youth, there are still some things that I quite like about it
 These are the features that I'm most interested in adding to wwwsplit, roughly in order.
 * Fully fleshed-out "slow load" and "quick load" features; wwwsplit currently has simple slow and quick load support.
 * The ability to delete a set of segments.
+* Real import/export functionality:
+  * For wwwsplit itself
+  * For LiveSplit
+  * For other timers
 * A pause timer control.
 * The ability to manipulate existing segments.
   * Delete
