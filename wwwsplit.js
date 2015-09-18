@@ -297,7 +297,7 @@ var run = {
 			var segment = this.data.segments[segmentId];
 			var $segment = $('div#run div#segment' + segmentId);
 			var $slice = $('div#run div#slice' + segmentId);
-			$segment.find('div.difference').text('').removeClass('ahead behind gaining losing new-best');
+			$segment.find('div.difference').html('').removeClass('ahead behind gaining losing new-best');
 			$slice.removeClass('ahead behind gaining losing new-best');
 
 			var previousSegment = (segmentId > 0) ? this.data.segments[segmentId - 1] : null;
@@ -305,7 +305,7 @@ var run = {
 			if (segment.split && segment.best && segment.best.split) {
 				var difference = this.timer.formatMilliseconds(segment.split - segment.best.split, true);
 
-				$segment.find('div.difference').text(difference);
+				$segment.find('div.difference').html(difference);
 
 				if (difference[0] == '-') {
 					$segment.find('div.difference').removeClass('behind').addClass('ahead');
@@ -336,11 +336,11 @@ var run = {
 			}
 
 			if (segment.duration) {
-				$segment.find('div.time').text(this.timer.formatMilliseconds(segment.duration));
+				$segment.find('div.time').html(this.timer.formatMilliseconds(segment.duration));
 			}
 
 			if (segment.split) {
-				$segment.find('div.split').text(this.timer.formatMilliseconds(segment.split));
+				$segment.find('div.split').html(this.timer.formatMilliseconds(segment.split));
 
 				if (segment.split > elapsedTime) {
 					elapsedTime = segment.split;
@@ -348,7 +348,7 @@ var run = {
 			}
 			else {
 				if (segment.best && segment.best.split) {
-					$segment.find('div.split').text(this.timer.formatMilliseconds(segment.best.split));
+					$segment.find('div.split').html(this.timer.formatMilliseconds(segment.best.split));
 				}
 				else {
 					$segment.find('div.split').text('-');
@@ -373,10 +373,10 @@ var run = {
 		var potentialBestRunRemaining = this.calculatePotentialBestRunRemaining();
 		var medianRunRemaining = this.calculateMedianRunRemaining();
 
-		$('div#run div.timer').text(this.timer.formatMilliseconds(elapsedTime));
-		$('div#run div.stats div.stat.possible div.time').text(potentialBestRunRemaining != 0 ? this.timer.formatMilliseconds(potentialBestRunRemaining) : '-');
+		$('div#run div.timer div.clock').html(this.timer.formatMilliseconds(elapsedTime));
+		$('div#run div.stats div.stat.possible div.time').html(potentialBestRunRemaining != 0 ? this.timer.formatMilliseconds(potentialBestRunRemaining) : '-');
 		//$('div#run div.possible div.predicted').text(this.timer.formatMilliseconds(this.calculatePredictedBestRunRemaining()));
-		$('div#run div.stats div.stat.predicted div.time').text(medianRunRemaining != 0 ? this.timer.formatMilliseconds(medianRunRemaining) : '-');
+		$('div#run div.stats div.stat.predicted div.time').html(medianRunRemaining != 0 ? this.timer.formatMilliseconds(medianRunRemaining) : '-');
 
 		var activeSegmentId = this.activeSegmentId();
 		var totalSegments = this.data.segments.length;
@@ -517,8 +517,13 @@ var run = {
 		$run.append($runSegments);
 		$run.append($runGraph);
 
-		var $runClock = $('<div class="timer">' + this.timer.formatMilliseconds(0) + '</div>');
-		$run.append($runClock);
+		var $runTimer = $('<div class="timer">');
+		var $timerTarget = $('<div class="target">');
+		var $timerClock = $('<div class="clock">' + this.timer.formatMilliseconds(0) + '</div>');
+
+		$runTimer.append($timerTarget);
+		$runTimer.append($timerClock);
+		$run.append($runTimer);
 
 		var $runStats = $('<div class="stats">');
 
@@ -828,12 +833,14 @@ var run = {
 		anchor: null,
 		date: null,
 		elapsed: function(since) {
-			return this.formatMilliseconds(this.time() - this.anchor);
+			return this.time() - this.anchor;
 		},
 		elapsedSince: function(time) {
 			return this.formatMilliseconds(this.time() - this.anchor - time, true);
 		},
 		formatMilliseconds: function(milliseconds, explicitSign) {
+			var componentClasses = ['centiseconds', 'seconds', 'minutes', 'hours', 'days'];
+
 			milliseconds = Math.round(milliseconds / 10) * 10;
 
 			var sign = (milliseconds < 0) ? '-' : (explicitSign ? '+' : '');
@@ -890,6 +897,21 @@ var run = {
 				formattedTime = hours + ':' + formattedTime;
 			}
 
+			var components = formattedTime.split(/:|\./).reverse();
+
+			for (var i in components) {
+				if (i == 0) {
+					components[i] = '.' + components[i];
+				}
+				else if (i != components.length - 1) {
+					components[i] = ':' + components[i];
+				}
+
+				components[i] = '<div class="' + componentClasses[i] + '">' + components[i] + '</div>';
+			}
+
+			formattedTime = components.reverse().join('');
+
 			return sign + formattedTime;
 		},
 		interval: null,
@@ -942,15 +964,17 @@ var run = {
 		var activeSegmentId = run.activeSegmentId();
 		var $activeSegment = $('div#run div#segment' + activeSegmentId + '.segment').addClass('active');
 		var $activeSlice = $('div#run div#slice' + activeSegmentId + '.slice').addClass('active');
-		var $timer = $('div#run div.timer');
+		var $target = $('div#run div.timer div.target');
+		var $timer = $('div#run div.timer div.clock');
 
 		//$activeSegment.find('div.split').text(run.timer.elapsed());
-		$timer.text(run.timer.elapsed());
+		//$target.html('Target: ' + run.timer.formatMilliseconds(run.data.segments[activeSegmentId].best.duration.individual));
+		$timer.html(run.timer.formatMilliseconds(run.timer.elapsed()));
 
 		if (run.data.segments[activeSegmentId].best && run.data.segments[activeSegmentId].best.split) {
 			var difference = run.timer.elapsedSince(run.data.segments[activeSegmentId].best.split);
 
-			$activeSegment.find('div.difference').text(difference);
+			$activeSegment.find('div.difference').html(difference);
 
 			if (difference[0] == '-') {
 				$activeSegment.find('div.difference').removeClass('behind').addClass('ahead');

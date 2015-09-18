@@ -208,12 +208,38 @@ div#run {
 
 	div#run div.timer {
 		border-top: 1px solid #999999;
-		font-family: monospace;
-		font-size: 200%;
-		letter-spacing: -3px;
-		padding: 4px 2px 0px;
-		text-align: right;
+		font-size: 0;
+		padding: 4px 5px 0px;
+		word-spacing: 0;
 	}
+
+		div#run div.timer div {
+			display: inline-block;
+		}
+
+		div#run div.timer div.target {
+			width: 50%;
+		}
+
+		div#run div.timer div.clock {
+			font-family: monospace;
+			font-size: 26px;
+			letter-spacing: -3px;
+			text-align: right;
+			width: 50%;
+		}
+
+			div#run div.timer div.clock div.centiseconds {
+				font-size: 80%;
+				width: 30px;
+			}
+
+			div#run div.timer div.clock div.seconds,
+			div#run div.timer div.clock div.minutes,
+			div#run div.timer div.clock div.hours,
+			div#run div.timer div.clock div.days {
+				width: 38px;
+			}
 
 	div#run div.stats {
 		border-bottom: 1px solid #999999;
