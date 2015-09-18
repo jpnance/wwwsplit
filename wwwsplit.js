@@ -900,6 +900,14 @@ var run = {
 			var components = formattedTime.split(/:|\./).reverse();
 
 			for (var i in components) {
+				var digits = components[i].split('');
+
+				for (var j in digits) {
+					digits[j] = '<div class="digit">' + digits[j] + '</div>';
+				}
+
+				components[i] = digits.join('');
+
 				if (i == 0) {
 					components[i] = '.' + components[i];
 				}
