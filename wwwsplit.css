@@ -51,7 +51,7 @@ div#run {
 	div#run div.segments {
 		height: 240px;
 		overflow: auto;
-		width: 310px;
+		width: 320px;
 	}
 
 		div#run div.segments textarea {

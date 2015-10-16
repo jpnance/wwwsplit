@@ -909,10 +909,10 @@ var run = {
 				components[i] = digits.join('');
 
 				if (i == 0) {
-					components[i] = '.' + components[i];
+					components[i] = '<div class="point">.</div>' + components[i];
 				}
 				else if (i != components.length - 1) {
-					components[i] = ':' + components[i];
+					components[i] = '<div class="colon">:</div>' + components[i];
 				}
 
 				components[i] = '<div class="' + componentClasses[i] + '">' + components[i] + '</div>';
