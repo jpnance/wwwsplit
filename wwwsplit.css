@@ -314,3 +314,39 @@ div#help {
 		div#help dd strong {
 			color: #ccc;
 		}
+
+div#export,
+div#import {
+	display: none;
+	font-family: sans-serif;
+	line-height: 14px;
+	margin: 8px;
+	overflow: hidden;
+	width: 295px;
+}
+
+	div#export textarea,
+	div#import textarea {
+		border: 0;
+		font-family: monospace;
+		font-size: 10px;
+		height: 390px;
+		width: 295px;
+	}
+
+	div#import div.actions {
+		border-top: 1px solid #999;
+		margin-top: 2px;
+		padding: 4px 2px 0px;
+		text-align: center;
+	}
+
+		div#import div.actions button#save {
+			cursor: pointer;
+			font-size: 90%;
+		}
+
+		div#import div.actions a#cancel {
+			color: #ff6a6a;
+		}
+

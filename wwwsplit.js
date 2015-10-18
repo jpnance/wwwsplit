@@ -575,6 +575,13 @@ var run = {
 
 		this.data.segments[segmentId].ignored.duration = true;
 	},
+	importData: function() {
+		var importText = $('textarea[name=import]').val();
+
+		if (importText != '') {
+			localStorage.setItem('data', importText);
+		}
+	},
 	load: function(id) {
 		var allData = JSON.parse(localStorage.getItem('data'));
 
@@ -1024,8 +1031,8 @@ $(document).ready(function() {
 					break;
 
 				case 27: /* escape is for turning off the help menu */
+					$('body > div').hide();
 					$('body div#run').show();
-					$('body div#help').hide();
 					break;
 
 				case 32: /* spacebar is for start/split */
@@ -1068,12 +1075,22 @@ $(document).ready(function() {
 
 					break;
 
-				case 69: /* e is for edit set of segments */
+				case 69: /* e is for edit set of segments; E is for export */
 					if (!run.running && !e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey) {
 						run.generateEditRunMarkup(run.data);
 						run.editing = true;
 					}
+					if (!run.running && !e.altKey && !e.ctrlKey && e.shiftKey && !e.metaKey) {
+						$('body > div').hide();
+						$('body div#export').show();
+						$('body div#export textarea').val(localStorage.getItem('data'));
+					}
 
+					break;
+
+				case 73: /* I is for import */
+					$('body > div').hide();
+					$('body div#import').show();
 					break;
 
 				case 76: /* l is for load */
@@ -1147,8 +1164,8 @@ $(document).ready(function() {
 				case 191: /* ? is for help */
 					if (!e.altKey && !e.ctrlKey && !e.metaKey) {
 						if (e.shiftKey) {
-							$('body div#run').toggle();
-							$('body div#help').toggle();
+							$('body > div').hide();
+							$('body div#help').show();
 						}
 					}
 
@@ -1156,10 +1173,11 @@ $(document).ready(function() {
 			}
 		}
 		else {
-			/* escape is for leaving edit mode */
-			if (e.keyCode == 27) {
-				run.editing = false;
-				run.generateRunTable();
+			switch (e.keyCode) {
+				case 27: /* escape is for leaving edit mode */
+					run.editing = false;
+					run.generateRunTable();
+					break;
 			}
 		}
 	});
@@ -1178,6 +1196,16 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		run.editing = false;
+		run.generateRunTable();
+	});
+
+	$('body').on('click', 'div#import div.actions button', function(e) {
+		e.preventDefault();
+		run.importData();
+
+		$('body > div').hide();
+
+		run.load(1);
 		run.generateRunTable();
 	});
 });
