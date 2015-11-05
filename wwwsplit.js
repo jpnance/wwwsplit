@@ -163,10 +163,6 @@ var run = {
 		for (splitId in splits) {
 			var time = splits[splitId];
 
-			var minutes = time[0];
-			var seconds = time[1];
-			var centiseconds = time[2];
-
 			if (splitId == 0) {
 				this.data.segments[splitId].start = 0;
 			}
@@ -174,7 +170,7 @@ var run = {
 				this.data.segments[splitId].start = this.data.segments[splitId - 1].split;
 			}
 
-			this.data.segments[splitId].split = this.timer.unformatMilliseconds(minutes, seconds, centiseconds);
+			this.data.segments[splitId].split = this.timer.unformatMilliseconds(time);
 			this.data.segments[splitId].duration = this.data.segments[splitId].split - this.data.segments[splitId].start;
 		}
 	},
@@ -945,8 +941,19 @@ var run = {
 			this.date = new Date();
 			return this.date.getTime();
 		},
-		unformatMilliseconds: function(hours, minutes, seconds, centiseconds) {
-			return (hours * 60 * 60 * 1000) + (minutes * 60 * 1000) + (seconds * 1000) + (centiseconds * 10 + 4);
+		unformatMilliseconds: function(time) {
+			var components = time.split(/:|\./);
+			var multipliers = [10, 1000, 60 * 1000, 60 * 60 * 1000];
+
+			components = components.reverse();
+
+			var milliseconds = 0;
+
+			for (var id in components) {
+				milliseconds += components[id] * multipliers[id];
+			}
+
+			return milliseconds;
 		}
 	},
 	timeSaves: function() {
