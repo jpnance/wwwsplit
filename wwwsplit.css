@@ -90,11 +90,33 @@ div#run {
 		div#run div.segments div.segment.last {
 			background-color: #222;
 			border-top: 1px solid #444;
-			line-height: 10px;
+			line-height: 12px;
+			padding: 6px 2px 6px 4px;
 			position: fixed;
 			width: 289px;
 			top: 264px;
 		}
+
+		body.mac div#run div.segments div.segment.last {
+			line-height: 10px;
+			padding: 7px 2px 5px 4px;
+		}
+
+		div#run div.segments div.segment.last.active {
+			line-height: 12px;
+		}
+
+		body.mac div#run div.segments div.segment.last.active {
+			line-height: 10px;
+		}
+
+			div#run div.segments div.segment.last div.split {
+				line-height: 10px;
+			}
+
+			body.mac div.segments div.segment.last div.split {
+				line-height: 10px;
+			}
 
 		div#run div.segments div.segment.active {
 			background-color: #2658bd;
