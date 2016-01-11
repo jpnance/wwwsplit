@@ -1025,6 +1025,10 @@ $(document).ready(function() {
 		run.generateEditRunMarkup();
 	}
 
+	if (navigator.platform.match(/Mac/)) {
+		$('body').addClass('mac');
+	}
+
 	$('body').keydown(function(e) {
 		//console.log(e);
 

@@ -209,8 +209,12 @@ div#run {
 	div#run div.timer {
 		border-top: 1px solid #999999;
 		font-size: 0;
-		padding: 4px 3px 0px;
+		padding: 2px 3px 2px;
 		word-spacing: 0;
+	}
+
+	body.mac div#run div.timer {
+		padding: 4px 3px 0px;
 	}
 
 		div#run div.timer div {
